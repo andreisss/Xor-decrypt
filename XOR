@@ -1,0 +1,19 @@
+import os
+import struct
+import sys
+def four_byte_xor(content, key ):
+translated = ""
+len_content = len(content)
+index = 0
+while (index < len_content):
+data = content[index:index+4]
+p = struct.unpack("I", data)[0]
+translated += struct.pack("I", p ^ key)
+index += 4
+return translated
+in_file = open("rsrc.bin", 'rb')
+out_file = open("decrypted.bin", 'wb')
+xor_key = 0x00000000
+rsrc_content = in_file.read()
+decrypted_content = four_byte_xor(rsrc_content,xor_key)
+out_file.write(decrypted_content)
